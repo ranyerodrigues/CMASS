@@ -1,0 +1,11 @@
+# gerado por ferramentas/gera-artifact.py a cada publicação
+artifact.html
+
+# planilhas de origem: dado de projeto, não entra no repositório
+*.xlsx
+*.xlsm
+*.pbix
+
+# sistema
+.DS_Store
+Thumbs.db

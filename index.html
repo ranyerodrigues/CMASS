@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>QMSS MOA/PCI - Reunião semanal</title>
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/painel.css">
+</head>
+<body>
+
+<div id="topo-fixo">
+<div id="barra">
+  <b>QMSS MOA/PCI</b>
+  <span class="sep">|</span>
+  <span id="st-arquivo">nenhum arquivo carregado</span>
+  <span class="sep">|</span>
+  <span id="st-dados"></span>
+  <span class="sep">|</span>
+  <span id="st-aberta"></span>
+  <button class="acao" id="bt-atualizar">Atualizar dados</button>
+  <button class="acao sec" id="bt-qualidade">Qualidade dos dados <span id="st-qtd"></span></button>
+</div>
+
+<header id="capa">
+  <img src="assets/logo_techint.png" alt="Techint Engenharia e Construção">
+  <h1>Reunião semanal — Qualidade, Meio Ambiente, Segurança e Saúde · MOA/PCI</h1>
+  <img src="assets/logo_usiminas.png" alt="Usiminas" class="usm">
+</header>
+
+<!-- ===================== filtro único de toda a página ===================== -->
+<div id="filtros">
+  <div class="grupo">
+    <span class="rot">Projeto</span>
+    <div class="botoes" id="f-projeto"></div>
+  </div>
+  <div class="grupo">
+    <span class="rot">Período</span>
+    <div class="botoes" id="f-periodo"></div>
+  </div>
+  <div class="contexto" id="f-contexto"></div>
+  <div id="f-meses" class="oculto"></div>
+</div>
+</div><!-- /topo-fixo -->
+
+<main id="painel">
+
+  <!-- ===================== BLOCO 1 — PIRÂMIDE DE BIRD ===================== -->
+  <section class="bloco" id="b-situacao">
+    <h2>1 · Pirâmide de Bird</h2>
+    <div id="p-piramide"></div>
+    <div id="p-topo">
+      <div id="p-streak"></div>
+      <div id="p-hh"></div>
+    </div>
+  </section>
+
+  <!-- ===================== BLOCO 2 — INDICADORES ===================== -->
+  <section class="bloco" id="b-indices">
+    <h2>2 · Indicadores</h2>
+    <div id="p-controles">
+      <div id="p-seletor"></div>
+      <div id="p-modo" class="oculto"></div>
+    </div>
+    <p class="explica" id="p-explica"></p>
+    <p class="nota" id="p-nota"></p>
+    <div class="cartao-bloco" id="p-grafico">
+      <div class="cab"></div><div class="corpo"></div>
+    </div>
+    <div class="cartao-bloco" id="p-eventos">
+      <div class="cab"></div><div class="corpo"></div>
+    </div>
+  </section>
+
+  <!-- ===================== BLOCO 3 — OCORRÊNCIAS ===================== -->
+  <section class="bloco" id="b-ocorrencias">
+    <h2>3 · Ocorrências do período</h2>
+    <div id="p-impacto" class="botoes"></div>
+    <div class="avisos" id="p-oc-aviso"></div>
+    <div class="cartao-bloco" id="p-ocorrencias">
+      <div class="rolagem"></div><div class="rodape"></div>
+    </div>
+  </section>
+
+  <!-- ===================== BLOCO 4 — PROATIVOS ===================== -->
+  <section class="bloco" id="b-proativos">
+    <h2>4 · Indicadores proativos — desvios</h2>
+    <div class="avisos" id="p-realce"></div>
+    <div class="grade g-proativo">
+      <div class="cartao-bloco" id="p-risco"><div class="cab"></div><div class="corpo"></div></div>
+      <div class="cartao-bloco" id="p-fatores"><div class="cab"></div><div class="corpo"></div></div>
+      <div class="cartao-bloco" id="p-locais"><div class="cab"></div><div class="corpo"></div></div>
+    </div>
+    <div class="cartao-bloco" id="p-desvios" style="margin-top:10px">
+      <div class="cab"></div><div class="rolagem"></div><div class="rodape"></div>
+    </div>
+  </section>
+
+</main>
+
+<div id="tip"></div>
+
+<aside id="qualidade" class="oculto">
+  <header><h2>Qualidade dos dados</h2><button class="fechar" id="bt-fechar-q">fechar</button></header>
+  <div class="conteudo" id="q-conteudo"></div>
+</aside>
+
+<div id="carga">
+  <div class="cx">
+    <h1>Carregar os dados</h1>
+    <p>Escolha o arquivo <code>Dados_MOA.PCI_Atual_Com Formulas.xlsx</code> (ou outro no mesmo formato). Todos os indicadores são recalculados
+       a partir das abas <code>DADOS</code>, <code>Índices</code> e <code>Ocorrências</code>.
+       O arquivo é lido dentro do navegador: nada é enviado para fora do seu computador e o Excel original não é alterado.</p>
+    <div class="drop" id="drop">Arraste o arquivo aqui ou
+      <label style="color:#78B92E;font-weight:600;cursor:pointer;text-decoration:underline">
+        clique para escolher<input type="file" id="arq" accept=".xlsx,.xlsm,.xls" style="display:none"></label>
+    </div>
+    <p id="carga-msg" class="erro"></p>
+    <p style="font-size:12px;opacity:.7">Para trocar o mês, clique em <b>Atualizar dados</b> na barra superior.</p>
+  </div>
+</div>
+
+<script src="vendor/xlsx.mini.min.js"></script>
+<script src="js/loader.js"></script>
+<script src="js/model.js"></script>
+<script src="js/charts.js"></script>
+<!-- instantâneo dos dados (opcional): apague este arquivo e esta linha para que a
+     página sempre comece pedindo o Excel -->
+<script src="js/dados.js"></script>
+<script src="js/painel.js"></script>
+</body>
+</html>

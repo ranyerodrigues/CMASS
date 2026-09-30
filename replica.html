@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>QMSS MOA/PCI - Réplica do Power BI</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ======================= barra de estado / ações ======================= -->
+<div id="palco">
+  <div id="barra">
+    <b>QMSS MOA/PCI</b>
+    <nav id="nav-paginas" aria-label="Páginas">
+      <button type="button" data-ir="inicio">Início</button>
+      <button type="button" data-ir="reuniao">Reunião</button>
+      <button type="button" data-ir="reativos">Reativos</button>
+      <button type="button" data-ir="proativos">Proativos</button>
+    </nav>
+    <span class="sep">|</span>
+    <span id="st-arquivo">nenhum arquivo carregado</span>
+    <span class="sep">|</span>
+    <span id="st-dados"></span>
+    <span class="sep">|</span>
+    <span id="st-aberta"></span>
+    <button class="acao" id="bt-atualizar">Atualizar dados</button>
+    <button class="acao sec" id="bt-qualidade">Qualidade dos dados <span id="st-qtd"></span></button>
+    <span id="zoom">
+      <label for="sel-eixo">Eixo dos gráficos</label>
+      <select id="sel-eixo" title="Nível da hierarquia de datas usado no eixo dos 8 gráficos de linha (página Reativos)">
+        <option value="mes" selected>Mês</option>
+        <option value="trimestre">Trimestre</option>
+        <option value="ano">Ano</option>
+      </select>
+      <label for="sel-zoom">Zoom</label>
+      <select id="sel-zoom">
+        <option value="auto" selected>Ajustar à tela</option>
+        <option value="1">100%</option>
+        <option value="1.25">125%</option>
+        <option value="1.5">150%</option>
+        <option value="0.75">75%</option>
+      </select>
+    </span>
+  </div>
+
+  <div id="chips"><span class="rot">Filtros ativos</span><span id="chips-lista"></span></div>
+
+  <div id="viewport">
+   <div id="escala">
+
+    <!-- =================== PÁGINA 0 - INÍCIO =================== -->
+    <section class="pagina ativa" id="pg-inicio">
+      <svg id="hexes" viewBox="0 0 1280 720" preserveAspectRatio="none"></svg>
+
+      <div class="vis" style="left:14px;top:10px;width:183px;height:80px;background:#fff">
+        <img src="assets/logo_techint.png" alt="Techint Engenharia e Construção"></div>
+      <div class="vis" style="left:1041px;top:16px;width:239px;height:64px;background:#fff">
+        <img src="assets/logo_usiminas.png" alt="Usiminas"></div>
+
+      <div class="vis caixa-texto" style="left:219px;top:27px;width:841px;height:77px;
+           font-size:var(--f18);font-weight:700;color:#78b92e;text-align:center;display:flex;align-items:center;justify-content:center">
+        QUALIDADE, MEIO AMBIENTE, SEGURANÇA E SAÚDE - MOA/PCI</div>
+
+      <!-- Grupo 1 -> Reativos -->
+      <div class="vis clicavel" data-ir="reativos" style="left:455.6px;top:224.8px;width:96.4px;height:94px">
+        <div style="position:absolute;left:0;top:0;width:94.7px;height:94.7px;background:#78B92E"></div>
+        <img src="assets/icone_reativos.png" alt="Indicadores reativos"
+             style="position:absolute;left:1.4px;top:4.1px;width:94.7px;height:86.4px">
+      </div>
+      <!-- Grupo 2 -> Proativos -->
+      <div class="vis clicavel" data-ir="proativos" style="left:728px;top:224.8px;width:97.5px;height:102.3px">
+        <div style="position:absolute;left:0;top:0;width:94.7px;height:94.7px;background:#78B92E"></div>
+        <img src="assets/icone_proativos.png" alt="Indicadores proativos"
+             style="position:absolute;left:2.7px;top:11px;width:93.3px;height:91.9px">
+      </div>
+
+      <div class="vis caixa-texto clicavel" data-ir="reativos" style="left:412px;top:328px;width:184px;height:81px;
+           font-size:var(--f16);color:#252423;text-align:center">INDICADORES REATIVOS</div>
+      <div class="vis caixa-texto clicavel" data-ir="proativos" style="left:685px;top:328px;width:191px;height:67px;
+           font-size:var(--f16);color:#1a1a1a;text-align:center">INDICADORES PROATIVOS</div>
+    </section>
+
+    <!-- =================== PÁGINA 1 - REATIVOS =================== -->
+    <section class="pagina" id="pg-reativos">
+      <div class="vis" style="left:79px;top:8px;width:184px;height:80px"><img src="assets/logo_techint.png" alt="Techint"></div>
+      <div class="vis" style="left:1041px;top:16px;width:239px;height:64px"><img src="assets/logo_usiminas.png" alt="Usiminas"></div>
+      <div class="vis" style="left:18px;top:18px;width:60px;height:60px"><img src="assets/home.png" alt=""></div>
+      <div class="vis clicavel" data-ir="inicio" title="Voltar ao início"
+           style="left:19px;top:22px;width:57px;height:52px;border:1px solid #252423;border-radius:6px"></div>
+
+      <div class="vis caixa-texto" style="left:519px;top:23px;width:347px;height:52px;font-size:var(--f18);
+           font-weight:700;text-align:center;display:flex;align-items:center;justify-content:center">INDICADORES REATIVOS</div>
+
+      <!-- slicer PROJETO (horizontal, cabeçalho oculto) -->
+      <div class="vis slicer horiz" id="sl-projeto" style="left:9px;top:89px;width:176px;height:56px"></div>
+
+      <!-- pirâmide -->
+      <svg class="vis" style="left:198px;top:105px;width:364px;height:400px" viewBox="0 0 364 400" preserveAspectRatio="none">
+        <polygon points="182,0 364,400 0,400" fill="#78B92E"></polygon>
+      </svg>
+      <div class="vis caixa-texto" style="left:198px;top:105px;width:144px;height:180px;font-size:var(--f8);line-height:1.5">
+        ACPD: Com perda de dias<br>ASPD: Sem perda de dias<br>PA: Primeiro Auxílio<br>HHT: Hora Homem Trabalhada<br>
+        DP: Dias Perdidos<br>DD: Dias debitados<br>S4: Severity Four<br>AG: Acidentes Graves</div>
+
+      <!-- legenda Limite / Resultado (como no PBIX) -->
+      <div class="vis" style="left:22px;top:176px;width:29px;height:14px;background:#6B007B"></div>
+      <div class="vis" style="left:22px;top:194px;width:29px;height:14px;background:#78B92E"></div>
+      <div class="vis caixa-texto" style="left:58px;top:169px;width:83px;height:45px;font-size:var(--f9);line-height:1.55"
+           title="No PBIX não existe série de limite plotada e as colunas Referência estão zeradas.">Limite<br>Resultado</div>
+
+      <!-- slicer Mês/ANO -->
+      <div class="vis slicer" id="sl-mesano" style="left:16px;top:216px;width:168px;height:505px">
+        <div class="cab">Mês/ANO <span class="limpar" data-limpar="mesano">limpar</span></div>
+        <div class="lista"></div>
+      </div>
+
+      <!-- rótulos + cartões da pirâmide -->
+      <div class="vis rotulo-piramide" style="left:357px;top:184px;width:173px;height:49px">ACPD</div>
+      <div class="vis cartao" id="cd-acpd" style="left:443px;top:192px;width:75px;height:32px"></div>
+      <div class="vis rotulo-piramide" style="left:357px;top:236px;width:173px;height:49px">ASDP</div>
+      <div class="vis cartao" id="cd-asdp" style="left:440px;top:244px;width:75px;height:32px"></div>
+      <div class="vis rotulo-piramide" style="left:357px;top:287px;width:173px;height:49px">PA</div>
+      <div class="vis cartao" id="cd-pa" style="left:440px;top:295px;width:75px;height:32px"></div>
+      <div class="vis rotulo-piramide" style="left:357px;top:339px;width:173px;height:49px">INCIDENTES</div>
+      <div class="vis cartao" id="cd-inc" style="left:439px;top:347px;width:75px;height:32px"></div>
+      <div class="vis rotulo-piramide" style="left:356px;top:390px;width:174px;height:64px;line-height:1.25">DESVIOS<br>TOTAIS</div>
+      <div class="vis cartao" id="cd-desv" style="left:432px;top:400px;width:91px;height:43px"></div>
+
+      <!-- 8 gráficos de linha -->
+      <div class="vis grafico" id="gr-ifa"   style="left:578px;top:105px;width:339px;height:128px"></div>
+      <div class="vis grafico" id="gr-ifsdp" style="left:929px;top:105px;width:339px;height:128px"></div>
+      <div class="vis grafico" id="gr-ift"   style="left:578px;top:241px;width:339px;height:128px"></div>
+      <div class="vis grafico" id="gr-is"    style="left:929px;top:241px;width:339px;height:128px"></div>
+      <div class="vis grafico" id="gr-ifcdp" style="left:578px;top:377px;width:339px;height:128px"></div>
+      <div class="vis grafico" id="gr-ifs4"  style="left:929px;top:377px;width:339px;height:128px"></div>
+      <div class="vis grafico" id="gr-ifpa"  style="left:578px;top:514px;width:339px;height:128px"></div>
+      <div class="vis grafico" id="gr-mifr"  style="left:929px;top:514px;width:339px;height:128px"></div>
+
+      <!-- caixas de fórmula (posições literais do PBIX; ficam sobre os gráficos) -->
+      <div class="vis caixa-texto" style="left:649px;top:118px;width:197px;height:30px;font-size:var(--f8);text-align:center;pointer-events:none">IFA = ACDP + ASDP x 1.000.000 / HHT</div>
+      <div class="vis caixa-texto" style="left:998px;top:118px;width:197px;height:30px;font-size:var(--f8);text-align:center;pointer-events:none">IFSPD = ASDP x 1.000.000 / HHT</div>
+      <div class="vis caixa-texto" style="left:626px;top:256px;width:245px;height:30px;font-size:var(--f8);text-align:center;pointer-events:none">IFSDP = ACDP + ASDP +PA x 1.000.000 / HHT</div>
+      <div class="vis caixa-texto" style="left:1000px;top:255px;width:197px;height:30px;font-size:var(--f8);text-align:center;pointer-events:none">IFSDP = DP + DD x 1.000.000 / HHT</div>
+      <div class="vis caixa-texto" style="left:649px;top:400px;width:197px;height:30px;font-size:var(--f8);text-align:center;pointer-events:none">IFCDP = ACDP x 1.000.000 / HHT</div>
+      <div class="vis caixa-texto" style="left:1000px;top:391px;width:197px;height:30px;font-size:var(--f8);text-align:center;pointer-events:none">IFS4 = S4 x 1.000.000 / HHT</div>
+      <div class="vis caixa-texto" style="left:648px;top:533px;width:199px;height:32px;font-size:var(--f8);text-align:center;pointer-events:none">IFPA = PA x 1.000.000 / HHT</div>
+      <div class="vis caixa-texto" style="left:1000px;top:592px;width:198px;height:32px;font-size:var(--f8);text-align:center;pointer-events:none">IFSDP = AG x 1.000.000 / HHT</div>
+
+      <!-- tabela de ocorrências -->
+      <div class="vis tabela" id="tb-ocorrencias" style="left:197px;top:514px;width:365px;height:195px">
+        <div class="rolagem"></div><div class="rodape"></div>
+      </div>
+
+      <!-- cartão NOSSO RECORDE -->
+      <div class="vis cartao-recorde" id="cd-recorde" style="left:577px;top:642px;width:338px;height:78px"></div>
+    </section>
+
+    <!-- =================== PÁGINA 2 - PROATIVOS =================== -->
+    <section class="pagina" id="pg-proativos">
+      <div class="vis" style="left:79px;top:8px;width:184px;height:80px"><img src="assets/logo_techint.png" alt="Techint"></div>
+      <div class="vis" style="left:1041px;top:16px;width:239px;height:64px"><img src="assets/logo_usiminas.png" alt="Usiminas"></div>
+      <div class="vis" style="left:18px;top:18px;width:60px;height:60px"><img src="assets/home.png" alt=""></div>
+      <div class="vis clicavel" data-ir="inicio" title="Voltar ao início"
+           style="left:19px;top:22px;width:57px;height:52px;border:1px solid #252423;border-radius:6px"></div>
+
+      <div class="vis caixa-texto" style="left:467px;top:23px;width:347px;height:52px;font-size:var(--f18);
+           font-weight:700;text-align:center;display:flex;align-items:center;justify-content:center">INDICADORES PROATIVOS</div>
+
+      <div class="vis slicer horiz" id="sl-contrato" style="left:23px;top:103px;width:220px;height:63px"></div>
+
+      <div class="vis grafico" id="gr-risco" style="left:262px;top:103px;width:431px;height:346px">
+        <div class="titulo g">Risco Potencial</div><div class="corpo"></div></div>
+
+      <div class="vis grafico" id="gr-local" style="left:705px;top:103px;width:574px;height:346px">
+        <div class="titulo g">Quantidade de desvios por local</div><div class="corpo"></div></div>
+
+      <div class="vis slicer" id="sl-anomes" style="left:23px;top:176px;width:220px;height:273px">
+        <div class="cab">Data do evento <span class="limpar" data-limpar="anomes">limpar</span></div>
+        <div class="lista"></div>
+      </div>
+
+      <div class="vis tabela" id="tb-desvios" style="left:23px;top:461px;width:790px;height:246px">
+        <div class="rolagem"></div><div class="rodape"></div>
+      </div>
+
+      <div class="vis grafico" id="gr-fator" style="left:825px;top:461px;width:454px;height:246px">
+        <div class="titulo g">Fator de Risco</div><div class="corpo"></div></div>
+    </section>
+
+    <!-- =================== PÁGINA 3 - REUNIÃO =================== -->
+    <section class="pagina" id="pg-reuniao">
+      <div class="vis" style="left:18px;top:14px;width:150px;height:56px"><img src="assets/logo_techint.png" alt="Techint"></div>
+      <div class="vis" style="left:1088px;top:20px;width:174px;height:48px"><img src="assets/logo_usiminas.png" alt="Usiminas"></div>
+      <div class="vis caixa-texto" style="left:186px;top:22px;width:880px;height:44px;font-size:var(--f18);
+           font-weight:700;display:flex;align-items:center">REUNIÃO SEMANAL — QMSS MOA/PCI</div>
+      <div class="vis clicavel" data-ir="inicio" title="Voltar ao início"
+           style="left:1088px;top:20px;width:0;height:0"></div>
+
+      <!-- controles -->
+      <div class="vis rot-ctrl" style="left:18px;top:86px">Projeto</div>
+      <div class="vis slicer horiz compacto" id="sl-r-projeto" style="left:18px;top:102px;width:196px;height:30px"></div>
+      <div class="vis rot-ctrl" style="left:230px;top:86px">Período</div>
+      <div class="vis slicer horiz compacto" id="sl-r-periodo" style="left:230px;top:102px;width:404px;height:30px"></div>
+      <div class="vis rot-ctrl" id="r-periodo-txt" style="left:650px;top:107px;width:612px;text-align:right"></div>
+
+      <!-- sequência sem acidente + cartões -->
+      <div class="vis" id="r-streak" style="left:18px;top:146px;width:360px;height:96px;display:flex;gap:8px"></div>
+      <div class="vis" id="r-cartoes" style="left:390px;top:146px;width:872px;height:96px;display:flex;gap:8px"></div>
+
+      <!-- seletor de indicador + gráfico -->
+      <div class="vis seletor" id="r-seletor" style="left:18px;top:258px;width:744px;height:30px"></div>
+      <div class="vis grafico grande" id="r-grafico" style="left:18px;top:294px;width:744px;height:214px">
+        <div class="titulo"></div><div class="corpo"></div></div>
+
+      <div class="vis tabela" id="r-ocorrencias" style="left:18px;top:520px;width:744px;height:186px">
+        <div class="cab-tab">Ocorrências do período</div>
+        <div class="rolagem"></div><div class="rodape"></div>
+      </div>
+
+      <div class="vis grafico grande" id="r-fatores" style="left:778px;top:258px;width:484px;height:214px">
+        <div class="titulo">Onde concentrar: fatores de risco</div><div class="corpo"></div></div>
+      <div class="vis grafico grande" id="r-locais" style="left:778px;top:492px;width:484px;height:214px">
+        <div class="titulo">Onde concentrar: locais</div><div class="corpo"></div></div>
+    </section>
+
+   </div>
+  </div>
+</div>
+
+<div id="tip"></div>
+
+<!-- ======================= painel de qualidade ======================= -->
+<aside id="qualidade" class="oculto">
+  <header><h2>Qualidade dos dados</h2><button class="fechar" id="bt-fechar-q">fechar</button></header>
+  <div class="conteudo" id="q-conteudo"></div>
+</aside>
+
+<!-- ======================= tela de carregamento ======================= -->
+<div id="carga">
+  <div class="cx">
+    <h1>Carregar os dados</h1>
+    <p>Escolha o arquivo <code>Dados_MOA.PCI.xlsx</code>. Todos os indicadores são recalculados
+       a partir das abas <code>DADOS</code>, <code>Índices</code> e <code>Ocorrências</code>.
+       O arquivo é lido dentro do navegador: nada é enviado para fora do seu computador e o Excel original não é alterado.</p>
+    <div class="drop" id="drop">Arraste o arquivo aqui ou
+      <label style="color:#78B92E;font-weight:600;cursor:pointer;text-decoration:underline">
+        clique para escolher<input type="file" id="arq" accept=".xlsx,.xlsm,.xls" style="display:none"></label>
+    </div>
+    <p id="carga-msg" class="erro"></p>
+    <p style="font-size:12px;color:#605E5C">Para trocar o mês, clique em <b>Atualizar dados</b> na barra superior e escolha a versão nova da planilha.</p>
+  </div>
+</div>
+
+<script src="vendor/xlsx.mini.min.js"></script>
+<script src="js/loader.js"></script>
+<script src="js/model.js"></script>
+<script src="js/charts.js"></script>
+<!-- instantâneo dos dados (opcional): apague este arquivo e esta linha para que a
+     página sempre comece pedindo o Excel -->
+<script src="js/dados.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
